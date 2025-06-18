@@ -5,7 +5,7 @@ import os
 
 # 避免欄位錯誤
 try:
-    df = pd.read_csv("watchlist.csv")
+    df = pd.read_csv("data/watchlist.csv")
     required_columns = ['代碼', '名稱', '價格', '殖利率', '技術燈號']
     for col in required_columns:
         if col not in df.columns:
