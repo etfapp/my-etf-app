@@ -4,6 +4,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 
 import streamlit as st
+import pandas as pd
+from utils.data_loader import load_watchlist, save_watchlist
 from utils.data_loader import load_watchlist, save_watchlist
 from utils.data_loader import load_watchlist
 import pandas as pd
@@ -11,6 +13,15 @@ import pandas as pd
 def app():
     st.title("⭐ 自選清單")
     try:
+    pass  # 原本缺少 except，補上保底處理
+    pass
+except Exception as e:
+    st.error(f"發生錯誤：{e}")
+except Exception as e:
+    st.error(f"發生錯誤：{e}")
+        pass  # TODO: Replace with actual logic
+except Exception as e:
+    st.error(f"發生錯誤：{e}")
         df = load_watchlist()
         st.dataframe(df)
 
