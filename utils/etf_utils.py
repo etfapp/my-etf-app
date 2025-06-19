@@ -16,3 +16,9 @@ def get_today_strategy():
 def format_update_time():
     from datetime import datetime
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+def load_etf_data():
+    return load_data("etf_summary.csv")
+
+def get_dynamic_etfs(df):
+    return df[df.get("技術燈號") == "低"]
