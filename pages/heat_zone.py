@@ -11,11 +11,11 @@ try:
 
     def check_heat_conditions(row):
         reasons = []
-        if "RSI" in row and row["RSI"] > 70:
+        if "RSI" in row and pd.notna(row["RSI"]) and row["RSI"] > 70:
             reasons.append("RSI 過熱")
         if "MACD_死叉" in row and row["MACD_死叉"]:
             reasons.append("MACD 死叉")
-        if "殖利率百分位" in row and row["殖利率百分位"] < 20:
+        if "殖利率百分位" in row and pd.notna(row["殖利率百分位"]) and row["殖利率百分位"] < 20:
             reasons.append("殖利率低")
         if "成交量放大" in row and row["成交量放大"]:
             reasons.append("成交量放大")
@@ -26,7 +26,10 @@ try:
     df = df[df["升溫條件數"] > 0]
     df["升溫等級"] = df["升溫條件數"].apply(lambda x: "🟥 高" if x >= 3 else ("🟧 中" if x == 2 else "🟨 低"))
 
-    df_show = df[["代碼", "名稱", "價格", "殖利率", "RSI", "升溫等級", "升溫原因"]].copy()
+    # 容錯顯示欄位處理
+    columns_to_show = ["代碼", "名稱", "價格", "殖利率", "RSI", "升溫等級", "升溫原因"]
+    columns_to_show = [col for col in columns_to_show if col in df.columns or col in ["升溫等級", "升溫原因"]]
+    df_show = df[columns_to_show].copy()
     df_show["升溫原因"] = df_show["升溫原因"].apply(lambda x: "、".join(x))
     st.dataframe(df_show.reset_index(drop=True), use_container_width=True)
 
