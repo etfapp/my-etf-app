@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 from utils.data_loader import load_etf_summary
@@ -7,17 +6,18 @@ st.title("🔥 升溫區 - 建議觀察或減碼的 ETF")
 
 try:
     df = load_etf_summary()
-    df = df[df["基本面評分"] >= 60]
+    if "基本面評分" in df.columns:
+        df = df[df["基本面評分"] >= 60]
 
     def check_heat_conditions(row):
         reasons = []
-        if row["RSI"] > 70:
+        if "RSI" in row and row["RSI"] > 70:
             reasons.append("RSI 過熱")
-        if row.get("MACD_死叉", False):
+        if "MACD_死叉" in row and row["MACD_死叉"]:
             reasons.append("MACD 死叉")
-        if row["殖利率百分位"] < 20:
+        if "殖利率百分位" in row and row["殖利率百分位"] < 20:
             reasons.append("殖利率低")
-        if row.get("成交量放大", False):
+        if "成交量放大" in row and row["成交量放大"]:
             reasons.append("成交量放大")
         return reasons
 
@@ -26,7 +26,7 @@ try:
     df = df[df["升溫條件數"] > 0]
     df["升溫等級"] = df["升溫條件數"].apply(lambda x: "🟥 高" if x >= 3 else ("🟧 中" if x == 2 else "🟨 低"))
 
-    df_show = df[["代碼", "名稱", "價格", "殖利率", "RSI", "升溫等級", "升溫原因"]]
+    df_show = df[["代碼", "名稱", "價格", "殖利率", "RSI", "升溫等級", "升溫原因"]].copy()
     df_show["升溫原因"] = df_show["升溫原因"].apply(lambda x: "、".join(x))
     st.dataframe(df_show.reset_index(drop=True), use_container_width=True)
 
