@@ -65,3 +65,8 @@ def load_heat_zone():
         df[col] = pd.to_numeric(df[col], errors="coerce")
 
     return df
+
+def save_watchlist(df):
+    """儲存自選清單資料到 CSV"""
+    filepath = os.path.join("data", "watchlist.csv")
+    df.to_csv(filepath, index=False)

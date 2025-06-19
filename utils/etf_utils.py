@@ -40,15 +40,31 @@ def load_etf_data():
 
     return df
 
-def get_dynamic_etfs(df):
+def get_dynamic_etfs(df, mode="平衡型"):
     """
-    從 ETF 總表中挑出目前「位階低且基本面佳」的標的
+    根據策略模式（保守型 / 平衡型 / 積極型）篩選可進場標的
     """
     df = df.copy()
-    conditions = (
-        (df["技術燈號"] == "低") &
-        (df["RSI百分位"] < 30) &
-        (df["殖利率百分位"] > 70) &
-        (df["基本面總分"] >= 70)
-    )
+
+    if mode == "保守型":
+        conditions = (
+            (df["技術燈號"] == "低") &
+            (df["RSI百分位"] < 30) &
+            (df["殖利率百分位"] > 70) &
+            (df["基本面總分"] >= 75)
+        )
+    elif mode == "積極型":
+        conditions = (
+            (df["RSI百分位"] < 70) &
+            (df["殖利率百分位"] > 50) &
+            (df["基本面總分"] >= 60)
+        )
+    else:  # 平衡型
+        conditions = (
+            (df["技術燈號"].isin(["低", "中"])) &
+            (df["RSI百分位"] < 50) &
+            (df["殖利率百分位"] > 60) &
+            (df["基本面總分"] >= 70)
+        )
+
     return df[conditions].reset_index(drop=True)
