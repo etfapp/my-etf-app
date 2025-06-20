@@ -6,7 +6,8 @@ from utils.data_loader import load_etf_summary
 
 st.title("📈 ETF 總表")
 df = load_etf_summary()
-st.dataframe(df, use_container_width=True)
+    df["技術圖表"] = df["代碼"].apply(lambda x: f"[📊 查看](/chart?symbol={x})")
+    st.dataframe(df[["代碼", "名稱", "殖利率", "價格", "技術圖表"]], use_container_width=True)
 
 st.markdown('---')
 st.markdown('### 🔍 技術圖表快速查看')

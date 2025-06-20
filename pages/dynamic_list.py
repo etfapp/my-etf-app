@@ -10,7 +10,8 @@ try:
     df = load_etf_summary()
     df = df.copy()
     filtered = df[(df["殖利率"] > 4) | (df["價格"] < 25)]
-    st.dataframe(filtered, use_container_width=True)
+    filtered["技術圖表"] = filtered["代碼"].apply(lambda x: f"[📊 查看](/chart?symbol={x})")
+    st.dataframe(filtered[["代碼", "名稱", "殖利率", "價格", "技術圖表"]], use_container_width=True)
 except Exception as e:
     st.error(f"載入失敗：{e}")
 

@@ -30,8 +30,9 @@ try:
     columns_to_show = ["代碼", "名稱", "價格", "殖利率", "RSI", "升溫等級", "升溫原因"]
     columns_to_show = [col for col in columns_to_show if col in df.columns or col in ["升溫等級", "升溫原因"]]
     df_show = df[columns_to_show].copy()
+    df_show["技術圖表"] = df_show["代碼"].apply(lambda x: f"[📊 查看](/chart?symbol={x})")
     df_show["升溫原因"] = df_show["升溫原因"].apply(lambda x: "、".join(x))
-    st.dataframe(df_show.reset_index(drop=True), use_container_width=True)
+    st.dataframe(df_show[["代碼", "名稱", "殖利率", "價格", "技術圖表"]], use_container_width=True)
 
 except Exception as e:
     st.error(f"資料載入錯誤：{e}")
