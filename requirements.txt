@@ -1,2 +1,5 @@
 streamlit
-pandasyfinance
+pandas
+numpy
+plotly
+yfinance
