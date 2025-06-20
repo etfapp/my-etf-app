@@ -61,5 +61,6 @@ else:
 
 st.markdown('---')
 st.markdown('### 🔍 技術圖表快速查看')
-for i, row in df.iterrows():
+    df_for_chart = watchlist_df if 'watchlist_df' in locals() else pd.DataFrame()
+    for i, row in df_for_chart.iterrows():
     st.markdown(f"📊 [{row['代碼']}]({{st.get_url()}}?symbol={row['代碼']})")
