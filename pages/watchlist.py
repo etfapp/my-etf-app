@@ -1,8 +1,11 @@
 import streamlit as st
 import pandas as pd
-import os, sys
+import os
+import sys
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from utils.data_loader import load_watchlist, save_watchlist, load_etf_summary
+import from utils.data_loader  load_watchlist
+import save_watchlist
+import load_etf_summary
 
 st.title("⭐ 自選清單 + 水位計算機 + 存股模擬器")
 
