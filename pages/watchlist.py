@@ -8,8 +8,9 @@ st.title("⭐ 自選清單 + 水位計算機 + 存股模擬器")
 
 # === 顯示目前自選清單 ===
 df_watch = load_watchlist()
+    df_watch["技術圖表"] = df_watch["代碼"].apply(lambda x: f"[📊 查看](/chart?symbol={x})")
 st.subheader("📋 目前自選清單")
-st.dataframe(df_watch, use_container_width=True)
+    st.dataframe(df_watch[["代碼", "名稱", "殖利率", "價格", "技術圖表"]], use_container_width=True)
 
 # === 新增自選清單項目 ===
 st.subheader("➕ 新增 ETF")
@@ -64,4 +65,3 @@ st.markdown('### 🔍 技術圖表快速查看')
 if not df.empty:
     df_for_chart = df if 'df' in locals() else pd.DataFrame()
     for i, row in df_for_chart.iterrows():
-    st.markdown(f"📊 [{row['代碼']}](/chart?symbol={row['代碼']})", unsafe_allow_html=True)
