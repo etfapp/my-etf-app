@@ -1,11 +1,8 @@
 import streamlit as st
 import pandas as pd
-import os
-import sys
+import os, sys
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-import from utils.data_loader  load_watchlist
-import save_watchlist
-import load_etf_summary
+from utils.data_loader import load_watchlist, save_watchlist, load_etf_summary
 
 st.title("⭐ 自選清單 + 水位計算機 + 存股模擬器")
 
@@ -64,6 +61,7 @@ else:
 
 st.markdown('---')
 st.markdown('### 🔍 技術圖表快速查看')
+if not watchlist_df.empty:
     df_for_chart = watchlist_df if 'watchlist_df' in locals() else pd.DataFrame()
     for i, row in df_for_chart.iterrows():
-    st.markdown(f"📊 [{row['代碼']}]({{st.get_url()}}?symbol={row['代碼']})")
+        st.markdown(f"📊 [{row['代碼']}](/chart?symbol={row['代碼']})")

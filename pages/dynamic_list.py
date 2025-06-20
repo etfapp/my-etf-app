@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
-import os
-import sys
+import os, sys
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from utils.data_loader import load_etf_summary
 
