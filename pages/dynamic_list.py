@@ -13,3 +13,8 @@ try:
     st.dataframe(filtered, use_container_width=True)
 except Exception as e:
     st.error(f"載入失敗：{e}")
+
+st.markdown('---')
+st.markdown('### 🔍 技術圖表快速查看')
+for i, row in df.iterrows():
+    st.markdown(f"📊 [{row['代碼']}]({{st.get_url()}}?symbol={row['代碼']})")

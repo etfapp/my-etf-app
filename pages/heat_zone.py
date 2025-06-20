@@ -35,3 +35,8 @@ try:
 
 except Exception as e:
     st.error(f"資料載入錯誤：{e}")
+
+st.markdown('---')
+st.markdown('### 🔍 技術圖表快速查看')
+for i, row in df.iterrows():
+    st.markdown(f"📊 [{row['代碼']}]({{st.get_url()}}?symbol={row['代碼']})")

@@ -58,3 +58,8 @@ else:
 
         st.markdown("### 📊 建議分配結果")
         st.dataframe(selected[["代碼", "名稱", "殖利率", "價格", "建議投入金額", "預估可買股數"]], use_container_width=True)
+
+st.markdown('---')
+st.markdown('### 🔍 技術圖表快速查看')
+for i, row in df.iterrows():
+    st.markdown(f"📊 [{row['代碼']}]({{st.get_url()}}?symbol={row['代碼']})")
