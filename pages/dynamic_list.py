@@ -1,21 +1,22 @@
+
 import streamlit as st
 import pandas as pd
-import os, sys
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from utils.data_loader import load_etf_summary
+import os
 
 st.title("📉 動態清單（位階偏低推薦）")
 
-try:
-    df = load_etf_summary()
-    df = df.copy()
-    filtered = df[(df["殖利率"] > 4) | (df["價格"] < 25)]
-    filtered["技術圖表"] = filtered["代碼"].apply(lambda x: f"[📊 查看](/chart?symbol={x})")
-    st.dataframe(filtered[["代碼", "名稱", "殖利率", "價格", "技術圖表"]], use_container_width=True)
-except Exception as e:
-    st.error(f"載入失敗：{e}")
+csv_path = os.path.join("data", "etf_summary.csv")
+if os.path.exists(csv_path):
+    df = pd.read_csv(csv_path)
 
-st.markdown('---')
-st.markdown('### 🔍 技術圖表快速查看')
-for i, row in df.iterrows():
-    st.markdown(f"📊 [{row['代碼']}]({{st.get_url()}}?symbol={row['代碼']})")
+    # 篩選邏輯（範例：殖利率大於 4）
+    filtered = df[df["殖利率"] > 4]
+    filtered["技術圖表"] = filtered["代碼"].apply(lambda x: f"[📊 查看](/chart?symbol={x})")
+
+    st.dataframe(filtered[["代碼", "名稱", "殖利率", "價格", "技術圖表"]], use_container_width=True)
+
+    st.markdown("### 🔍 技術圖表快速查看")
+    for code in filtered["代碼"]:
+        st.markdown(f"- 📊 [{code}](/chart?symbol={code})")
+else:
+    st.warning("找不到 etf_summary.csv")
