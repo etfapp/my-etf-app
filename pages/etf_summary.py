@@ -1,9 +1,10 @@
+
 import streamlit as st
 import pandas as pd
 import os
+
 st.title("📈 ETF 總表")
 
-# 資料路徑
 csv_path = os.path.join("data", "etf_summary.csv")
 if os.path.exists(csv_path):
     df = pd.read_csv(csv_path)
